@@ -2,6 +2,11 @@
 
 基于 CodeBuddy 的多 Agent A 股交易系统。
 
+语言切换：
+
+- 英文（默认主页）：[README.md](README.md)
+- 中文（当前页）
+
 核心体验：简单上手，只需要配置好 Python 环境和你自己的 CodeBuddy API Key 即可运行。
 
 ## 这是不是实盘
