@@ -9,6 +9,8 @@
 
 核心体验：简单上手，只需要配置好 Python 环境和你自己的 CodeBuddy API Key 即可运行。
 
+傻瓜式部署：全系统只需要一个 CodeBuddy API Key 就能跑起来。
+
 ## 这是不是实盘
 
 结论：这是 真实行情驱动 + 模拟撮合执行，不是券商账户实盘下单。
@@ -26,7 +28,13 @@
 
 ## 快速开始
 
-## 1) 环境准备
+## 1) 先申请 CodeBuddy API Key
+
+申请入口：
+
+https://www.codebuddy.ai/cli
+
+## 2) 环境准备
 
 推荐 Python 3.10+（当前项目在 Python 3.12 可运行）。
 
@@ -46,7 +54,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 2) 配置 CodeBuddy API
+## 3) 配置 CodeBuddy API
 
 至少需要设置你的 API Key：
 
@@ -61,13 +69,17 @@ $env:CODEBUDDY_API_KEY="your_codebuddy_key"
 $env:CODEBUDDY_ENDPOINT="https://www.codebuddy.cn/v2/chat/completions"
 ```
 
-## 3) 启动系统
+## 4) 先选每个 Agent 的模型（推荐）
+
+直接修改项目根目录的 agent_models.json，给每个 Agent 选择模型。
+
+## 5) 启动系统
 
 ```bash
 python scripts/run_scheduler.py
 ```
 
-## 4) 可选：重置账户
+## 6) 可选：重置账户
 
 ```bash
 python scripts/reset_account.py
