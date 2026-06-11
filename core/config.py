@@ -31,17 +31,53 @@ EXPERT_MODEL = os.getenv("EXPERT_MODEL", "gpt-5.4")         # 金融专家
 NEWS_MODEL = os.getenv("NEWS_MODEL", "deepseek-v4")         # 新闻/情绪类
 MARKET_MODEL = os.getenv("MARKET_MODEL", "gpt-5.1")         # 基本面/技术类
 
-# 子 agent 模型映射（可被 MODEL_OVERRIDES_JSON 覆盖）
-AGENT_MODELS = {
-    "cio_brain": os.getenv("MODEL_CIO_BRAIN", LLM_MODEL),
-    "financial_expert": os.getenv("MODEL_FINANCIAL_EXPERT", EXPERT_MODEL),
-    "daily_reflection": os.getenv("MODEL_DAILY_REFLECTION", EXPERT_MODEL),
-    "news_worker": os.getenv("MODEL_NEWS_WORKER", NEWS_MODEL),
-    "news_analyst": os.getenv("MODEL_NEWS_ANALYST", NEWS_MODEL),
-    "sentiment_analyst": os.getenv("MODEL_SENTIMENT_ANALYST", NEWS_MODEL),
-    "fundamentals_analyst": os.getenv("MODEL_FUNDAMENTALS_ANALYST", MARKET_MODEL),
-    "technical_analyst": os.getenv("MODEL_TECHNICAL_ANALYST", MARKET_MODEL),
+def _base_agent_models() -> dict[str, str]:
+    return {
+        "cio_brain": LLM_MODEL,
+        "financial_expert": EXPERT_MODEL,
+        "daily_reflection": EXPERT_MODEL,
+        "news_worker": NEWS_MODEL,
+        "news_analyst": NEWS_MODEL,
+        "sentiment_analyst": NEWS_MODEL,
+        "fundamentals_analyst": MARKET_MODEL,
+        "technical_analyst": MARKET_MODEL,
+    }
+
+
+AGENT_MODEL_CONFIG_FILE = Path(
+    os.getenv("AGENT_MODEL_CONFIG_FILE", str(ROOT / "agent_models.json"))
+)
+
+# 子 agent 模型映射（支持文件 + 环境变量 + JSON 覆盖）
+AGENT_MODELS = _base_agent_models()
+
+if AGENT_MODEL_CONFIG_FILE.exists():
+    try:
+        _file_cfg = json.loads(AGENT_MODEL_CONFIG_FILE.read_text(encoding="utf-8"))
+        if isinstance(_file_cfg, dict):
+            for k, v in _file_cfg.items():
+                if isinstance(k, str) and isinstance(v, str) and v.strip():
+                    AGENT_MODELS[k.strip()] = v.strip()
+    except Exception:
+        # 文件格式错误时静默忽略，避免启动失败。
+        pass
+
+
+_ENV_AGENT_KEYS = {
+    "MODEL_CIO_BRAIN": "cio_brain",
+    "MODEL_FINANCIAL_EXPERT": "financial_expert",
+    "MODEL_DAILY_REFLECTION": "daily_reflection",
+    "MODEL_NEWS_WORKER": "news_worker",
+    "MODEL_NEWS_ANALYST": "news_analyst",
+    "MODEL_SENTIMENT_ANALYST": "sentiment_analyst",
+    "MODEL_FUNDAMENTALS_ANALYST": "fundamentals_analyst",
+    "MODEL_TECHNICAL_ANALYST": "technical_analyst",
 }
+
+for env_key, agent_key in _ENV_AGENT_KEYS.items():
+    val = os.getenv(env_key, "").strip()
+    if val:
+        AGENT_MODELS[agent_key] = val
 
 _MODEL_OVERRIDES_RAW = os.getenv("MODEL_OVERRIDES_JSON", "").strip()
 if _MODEL_OVERRIDES_RAW:
