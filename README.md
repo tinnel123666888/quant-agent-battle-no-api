@@ -9,6 +9,8 @@ Language:
 
 Simple onboarding: set up Python, add your own CodeBuddy API key, and run.
 
+One-key setup: you only need one CodeBuddy API key to run the full multi-agent workflow.
+
 ## Demo UI
 
 ![Quant Agent Battle Dashboard](demo1.png)
@@ -37,7 +39,13 @@ This gives a realistic research and decision pipeline without placing real broke
 
 ## Quick Start
 
-1. Set up environment
+1. Apply for your CodeBuddy API key
+
+Get your key from:
+
+https://www.codebuddy.ai/cli
+
+2. Set up environment
 
 Windows PowerShell:
 
@@ -55,7 +63,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. Configure your CodeBuddy API key
+3. Configure your CodeBuddy API key
 
 ```bash
 # PowerShell
@@ -68,13 +76,17 @@ Optional custom endpoint:
 $env:CODEBUDDY_ENDPOINT="https://www.codebuddy.cn/v2/chat/completions"
 ```
 
-3. Run scheduler
+4. Choose models for each agent
+
+Edit agent_models.json in project root to assign a model per agent.
+
+5. Run scheduler
 
 ```bash
 python scripts/run_scheduler.py
 ```
 
-4. Optional reset
+6. Optional reset
 
 ```bash
 python scripts/reset_account.py
