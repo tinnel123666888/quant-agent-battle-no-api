@@ -77,6 +77,30 @@ python scripts/reset_account.py
 
 默认全部通过 CodeBuddy API 调用，只是不同 Agent 可以用不同 model 参数。
 
+### 当前默认模型
+
+| Agent | 配置键 | 当前默认 |
+|---|---|---|
+| CIO 大脑 | `cio_brain` | `gpt-5.5` |
+| 金融专家 | `financial_expert` | `gpt-5.4` |
+| 每日复盘 | `daily_reflection` | `gpt-5.4` |
+| 新闻 worker | `news_worker` | `deepseek-v4` |
+| 新闻分析师 | `news_analyst` | `deepseek-v4` |
+| 情绪分析师 | `sentiment_analyst` | `deepseek-v4` |
+| 基本面分析师 | `fundamentals_analyst` | `gpt-5.1` |
+| 技术分析师 | `technical_analyst` | `gpt-5.1` |
+
+### 推荐做法：直接改根目录 `agent_models.json`
+
+项目已内置该文件，按键值一一对应修改即可。
+
+### 配置优先级（高到低）
+
+1. `MODEL_OVERRIDES_JSON`
+2. 每个 Agent 的环境变量（如 `MODEL_CIO_BRAIN`）
+3. `agent_models.json`
+4. 全局默认（`LLM_MODEL` / `EXPERT_MODEL` / `NEWS_MODEL` / `MARKET_MODEL`）
+
 ### 全局默认
 
 - MODEL_DEFAULT
