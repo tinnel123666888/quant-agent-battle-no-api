@@ -154,7 +154,48 @@ flowchart TD
 
 ## Model Configuration (Per-Agent Override)
 
-All calls use CodeBuddy-compatible API. You can override model per sub-agent:
+All calls use CodeBuddy-compatible API. You can override model per sub-agent.
+
+### Current default models
+
+| Agent | Model key | Current default |
+|---|---|---|
+| CIO brain | `cio_brain` | `gpt-5.5` |
+| Financial expert | `financial_expert` | `gpt-5.4` |
+| Daily reflection | `daily_reflection` | `gpt-5.4` |
+| News worker | `news_worker` | `deepseek-v4` |
+| News analyst | `news_analyst` | `deepseek-v4` |
+| Sentiment analyst | `sentiment_analyst` | `deepseek-v4` |
+| Fundamentals analyst | `fundamentals_analyst` | `gpt-5.1` |
+| Technical analyst | `technical_analyst` | `gpt-5.1` |
+
+### Recommended way: edit `agent_models.json`
+
+Project root includes:
+
+```json
+{
+	"cio_brain": "gpt-5.5",
+	"financial_expert": "gpt-5.4",
+	"daily_reflection": "gpt-5.4",
+	"news_worker": "deepseek-v4",
+	"news_analyst": "deepseek-v4",
+	"sentiment_analyst": "deepseek-v4",
+	"fundamentals_analyst": "gpt-5.1",
+	"technical_analyst": "gpt-5.1"
+}
+```
+
+Change values in this file to switch models for each agent.
+
+### Override precedence
+
+Highest to lowest:
+
+1. `MODEL_OVERRIDES_JSON`
+2. Per-agent env vars (`MODEL_CIO_BRAIN`, ...)
+3. `agent_models.json`
+4. Global defaults (`LLM_MODEL`, `EXPERT_MODEL`, `NEWS_MODEL`, `MARKET_MODEL`)
 
 - Global defaults: `MODEL_DEFAULT`, `LLM_MODEL`, `EXPERT_MODEL`, `NEWS_MODEL`, `MARKET_MODEL`
 - Per-agent overrides:
