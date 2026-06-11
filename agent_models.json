@@ -1,0 +1,10 @@
+{
+  "cio_brain": "gpt-5.5",
+  "financial_expert": "gpt-5.4",
+  "daily_reflection": "gpt-5.4",
+  "news_worker": "deepseek-v4",
+  "news_analyst": "deepseek-v4",
+  "sentiment_analyst": "deepseek-v4",
+  "fundamentals_analyst": "gpt-5.1",
+  "technical_analyst": "gpt-5.1"
+}
